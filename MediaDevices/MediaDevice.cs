@@ -1444,7 +1444,11 @@ namespace MediaDevices
             return null;
         }
 
-
+        /// <summary>
+        /// Uses PUID of media item representing file, to fetch this item Stream.
+        /// </summary>
+        /// <param name="persistentUniqueId">PUID of the item.</param>
+        /// <returns>Opened, readonly stream.</returns>
         public Stream OpenFileStream(string persistentUniqueId)
         {
             if (persistentUniqueId == null)
@@ -1468,6 +1472,33 @@ namespace MediaDevices
                 resources.GetStream(itemId, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out wpdStream);
 
                 return new StreamWrapper(wpdStream);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Create <see cref="MediaFileInfo"/> instance using PUID of media file item.
+        /// </summary>
+        /// <param name="persistentUniqueId">PUID of the item.</param>
+        /// <returns>New instance of the <see cref="MediaFileInfo"/> class.</returns>
+        public MediaFileInfo GetFileInfoFromPUID(string persistentUniqueId)
+        {
+            if (persistentUniqueId == null)
+            {
+                throw new ArgumentNullException("persistentUniqueId");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            string itemId = this.GetMediaFileId(persistentUniqueId);
+
+            if (itemId != null)
+            {
+                var fileInfo =  new MediaFileInfo(this, Item.Create(this, itemId));
+                return fileInfo;
             }
 
             return null;
