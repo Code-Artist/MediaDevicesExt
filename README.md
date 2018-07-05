@@ -5,9 +5,9 @@ This is version a little bit extended by myself to obtain additional information
 
 # Extended Features
 
-## Getting media object PUID
+- Getting media object PUID
 PUID - Persistence Unique ID is a special ID that is always the same across all connections and sessions.
 
-## Recovery MediaFileInfo from PUID of item
+- Recovery MediaFileInfo from PUID of item
 
-## Open direct stream to the file item using PUID
+- Open direct stream to the file item using PUID
