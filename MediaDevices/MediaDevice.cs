@@ -1,6 +1,5 @@
 ﻿using MediaDevices.Internal;
 using PortableDeviceApiLib;
-using PortableDeviceTypesLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,9 +7,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using PROPVARIANT = PortableDeviceTypesLib.tag_inner_PROPVARIANT;
 using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
 using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
 using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
+using PortableDeviceTypesLib;
 
 namespace MediaDevices
 {
@@ -1036,7 +1037,7 @@ namespace MediaDevices
                 sourceStream.CopyTo(stream);
             }
         }
-
+        
         /// <summary>
         /// Upload data from a stream to a file on a portable device.
         /// </summary>
@@ -1440,6 +1441,67 @@ namespace MediaDevices
             {
                 Trace.WriteLine(ex.ToString());
             }
+            return null;
+        }
+
+
+        public Stream OpenFileStream(string persistentUniqueId)
+        {
+            if (persistentUniqueId == null)
+            {
+                throw new ArgumentNullException("persistentUniqueId");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            string itemId = this.GetMediaFileId(persistentUniqueId);
+
+            if (itemId != null)
+            {
+                this.deviceContent.Transfer(out IPortableDeviceResources resources);
+
+                PortableDeviceApiLib.IStream wpdStream;
+                uint optimalTransferSize = 0;
+
+                resources.GetStream(itemId, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out wpdStream);
+
+                return new StreamWrapper(wpdStream);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns a media object session ID, for given PUID (Persistent Unique ID).
+        /// </summary>
+        /// <param name="persistentUniqueId">A Persistent Unique ID of media object.</param>
+        /// <returns>Session specific media object ID, used for communication.</returns>
+        public string GetMediaFileId(string persistentUniqueId)
+        {
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            try
+            {
+                var propVariantPUID = PropVariant.StringToPropVariant(persistentUniqueId);
+                var collection = (IPortableDevicePropVariantCollection)new PortableDevicePropVariantCollection();
+                collection.Add(ref propVariantPUID);
+
+                Command cmd = Command.Create(WPD.COMMAND_COMMON_GET_OBJECT_IDS_FROM_PERSISTENT_UNIQUE_IDS);
+                cmd.Add(WPD.PROPERTY_COMMON_PERSISTENT_UNIQUE_IDS, collection);
+                cmd.Send(this.device);
+                string mediaFileId = cmd.GetPropVariants(WPD.PROPERTY_COMMON_OBJECT_IDS).Select(c => c.ToString()).First();
+                return mediaFileId;
+            }
+            catch (COMException ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+
             return null;
         }
 

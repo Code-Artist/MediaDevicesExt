@@ -22,6 +22,7 @@ namespace MediaDevices.Internal
         private Command(PropertyKey commandKey)
         {
             this.values = (IPortableDeviceValues)new PortableDeviceValues();
+            
             this.values.SetGuidValue(WPD.PROPERTY_COMMON_COMMAND_CATEGORY, commandKey.fmtid);
             this.values.SetUnsignedIntegerValue(WPD.PROPERTY_COMMON_COMMAND_ID, commandKey.pid);
         }
@@ -46,6 +47,11 @@ namespace MediaDevices.Internal
             this.values.SetUnsignedIntegerValue(key, value);
         }
 
+        public void Add(PropertyKey key, IPortableDevicePropVariantCollection value)
+        {
+            this.values.SetIPortableDevicePropVariantCollectionValue(key, value);
+        }
+        
         public void Add(PropertyKey key, IEnumerable<int> values)
         {
             PortableDeviceApiLib.IPortableDevicePropVariantCollection col = (PortableDeviceApiLib.IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();

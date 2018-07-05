@@ -160,6 +160,19 @@ namespace MediaDevices
         }
 
         /// <summary>
+        /// A unique cross session object ID,
+        /// that is not changing when device is disconnected.
+        /// <para>Can be reused to restore device.</para>
+        /// </summary>
+        public string PersistentUniqeId
+        {
+            get
+            {
+                return this.item.PersistentUniqueId;
+            }
+        }
+
+        /// <summary>
         /// Rename the folder of file
         /// </summary>
         /// <param name="newName">New name of the file or folder.</param>

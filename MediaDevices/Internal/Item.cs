@@ -275,6 +275,20 @@ namespace MediaDevices.Internal
             }
         }
 
+        /// <summary>
+        /// A unique cross session object ID,
+        /// that is not changing when device is disconnected.
+        /// <para>Can be reused to restore device.</para>
+        /// </summary>
+        public string PersistentUniqueId
+        {
+            get
+            {
+                this.values.TryGetStringValue(WPD.OBJECT_PERSISTENT_UNIQUE_ID, out string value);
+                return value;
+            }
+        }
+
         public Item Parent
         {
             get
