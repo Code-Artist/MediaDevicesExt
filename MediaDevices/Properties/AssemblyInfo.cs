@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MediaDevices")]
 [assembly: AssemblyDescription("MTP / WPD API")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Ralf Beckers")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MediaDevices")]
-[assembly: AssemblyCopyright("Copyright © Ralf Beckers 2016 - 2018")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
