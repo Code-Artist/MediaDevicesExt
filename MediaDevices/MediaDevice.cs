@@ -1505,6 +1505,33 @@ namespace MediaDevices
         }
 
         /// <summary>
+        /// Create <see cref="MediaDirectoryInfo"/> instance using PUID of media file item.
+        /// </summary>
+        /// <param name="persistentUniqueId">PUID of the item.</param>
+        /// <returns>New instance of the <see cref="MediaDirectoryInfo"/> class.</returns>
+        public MediaDirectoryInfo GetDirectoryInfoFromPUID(string persistentUniqueId)
+        {
+            if (persistentUniqueId == null)
+            {
+                throw new ArgumentNullException("persistentUniqueId");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            string itemId = this.GetMediaObjectId(persistentUniqueId);
+
+            if (itemId != null)
+            {
+                var directoryInfo = new MediaDirectoryInfo(this, Item.Create(this, itemId));
+                return directoryInfo;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Returns a media object session ID, for given PUID (Persistent Unique ID).
         /// </summary>
         /// <param name="persistentUniqueId">A Persistent Unique ID of media object.</param>
