@@ -1460,7 +1460,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            string itemId = this.GetMediaFileId(persistentUniqueId);
+            string itemId = this.GetMediaObjectId(persistentUniqueId);
 
             if (itemId != null)
             {
@@ -1493,7 +1493,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            string itemId = this.GetMediaFileId(persistentUniqueId);
+            string itemId = this.GetMediaObjectId(persistentUniqueId);
 
             if (itemId != null)
             {
@@ -1509,7 +1509,7 @@ namespace MediaDevices
         /// </summary>
         /// <param name="persistentUniqueId">A Persistent Unique ID of media object.</param>
         /// <returns>Session specific media object ID, used for communication.</returns>
-        public string GetMediaFileId(string persistentUniqueId)
+        public string GetMediaObjectId(string persistentUniqueId)
         {
             if (!this.IsConnected)
             {
@@ -1525,8 +1525,8 @@ namespace MediaDevices
                 Command cmd = Command.Create(WPD.COMMAND_COMMON_GET_OBJECT_IDS_FROM_PERSISTENT_UNIQUE_IDS);
                 cmd.Add(WPD.PROPERTY_COMMON_PERSISTENT_UNIQUE_IDS, collection);
                 cmd.Send(this.device);
-                string mediaFileId = cmd.GetPropVariants(WPD.PROPERTY_COMMON_OBJECT_IDS).Select(c => c.ToString()).First();
-                return mediaFileId;
+                string mediaObjectId = cmd.GetPropVariants(WPD.PROPERTY_COMMON_OBJECT_IDS).Select(c => c.ToString()).First();
+                return mediaObjectId;
             }
             catch (COMException ex)
             {
