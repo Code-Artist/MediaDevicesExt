@@ -10,6 +10,8 @@ PUID - Persistence Unique ID is a special ID that is always the same across all 
 
 - Recovery MediaFileInfo from PUID of item
 
+- Recovery MediaDirectoryInfo from PUID of item
+
 - Open direct stream to the file item using PUID
 
-- Support Apple iPhone DCF storages, allow to go through iPhone folders hierachy. Original solution fails on iPhones.
+- Support Apple iPhone DCF storages, allow to go through iPhone folders hierachy. Original solution fails on iPhones, when using PUID.
