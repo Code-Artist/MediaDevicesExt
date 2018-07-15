@@ -203,6 +203,20 @@ namespace MediaDevices.Internal
             }
         }
 
+        /// <summary>
+        /// Gets the object ID of the closest functional object that contains this object.
+        /// <para>For example, a file inside a storage functional object will have 
+        /// this property set to the ID of the storage functional object.</para>
+        /// </summary>
+        public string ParentContainerId
+        {
+            get
+            {
+                this.values.TryGetStringValue(WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID, out string value);
+                return value;
+            }
+        }        
+
         public string OriginalFileName
         {
             get
@@ -425,11 +439,49 @@ namespace MediaDevices.Internal
             StringBuilder sb = new StringBuilder();
             do
             {
+                if (string.IsNullOrWhiteSpace(item.ParentId))
+                {
+                    item = this.TryHandleNonHierarchicalStorage();
+
+                    if (item == null)
+                    {
+                        throw new Exception($"Problem occurred when trying to" +
+                            $"get full object path on device {this.device.FriendlyName}.");
+                    }
+                }
+
                 sb.Insert(0, item.Name);
                 sb.Insert(0, DirectorySeparatorChar);
 
             } while (!(item = new Item(this.device, item.ParentId)).IsRoot);
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Handles DCF storages specific for Apple iPhones.
+        /// </summary>
+        /// <returns></returns>
+        private Item TryHandleNonHierarchicalStorage()
+        {
+            // EXPLANATION
+            // Some MTP compatible devices uses different storage formats that Generic
+            // Hierarchical storage like WP, Android. Good examples are Apple devices,
+            // which are using DCF storage. The specific in that storage is a way how
+            // directories handles parent object ID. If in Generic Hierarchical storage
+            // we check parent ID of root directory, it contains an ID of functional storage
+            // so that means storage ID. In DCF when we check parent ID of root object
+            // it will have object ID, not storage ID, e.g. parent id is o10001 (object10001),
+            // but storage has ID = s10001 (storage10001). So to find a parent of top most folder
+            // we need to fetch an object functional container ID. Which is storage for top most
+            // directory.
+            var drives = this.device.GetDrives();
+            var storageRoot = drives.FirstOrDefault(s => s.RootDirectory.Id == this.ParentContainerId);
+            if (storageRoot != null)
+            {
+                return storageRoot.RootDirectory.item;
+            }
+            
+            return null;
         }
 
         internal Stream OpenRead()
