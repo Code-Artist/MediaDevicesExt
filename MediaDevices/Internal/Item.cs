@@ -185,6 +185,24 @@ namespace MediaDevices.Internal
             }
         }
 
+        /// <summary>
+        /// Gets the hint-specific name to display to the user instead of the object name, only
+        /// if an object is a hint location.
+        /// <para>Drivers can specify location hints for various object types.
+        /// These are preferred storage locations for folders that hold
+        /// a particular object type. An equivalent would be the My Pictures
+        /// folder for image files in Windows. If this property does not exist,
+        /// typically the <see cref="Name"/> is used instead.</para>
+        /// </summary>
+        public string HintLocationName
+        {
+            get
+            {
+                this.values.TryGetStringValue(WPD.OBJECT_HINT_LOCATION_DISPLAY_NAME, out string value);
+                return value;
+            }
+        }
+
         public string OriginalFileName
         {
             get
