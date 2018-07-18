@@ -5,9 +5,7 @@ This is version a little bit extended by myself to obtain additional information
 
 ## Extended Features
 
-- Getting media object PUID
-
-PUID - Persistence Unique ID is a special ID that is always the same across all connections and sessions.
+- Getting media object PUID (Persistence Unique ID is a special ID that is always the same across all connections and sessions)
 
 - Recovery MediaFileInfo from PUID of item
 
