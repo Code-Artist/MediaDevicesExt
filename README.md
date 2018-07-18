@@ -15,3 +15,6 @@ PUID - Persistence Unique ID is a special ID that is always the same across all 
 - Open direct stream to the file item using PUID
 
 - Support Apple iPhone DCF storages, allow to go through iPhone folders hierachy. Original solution fails on iPhones, when using PUID.
+
+- Support access from different STA threads at once. We can use the library via new ```MediaManager``` class. By creating instance of ```MediaManager``` for each STA thread we are able to work with differents threads in one app. Just remember to be 
+prudent when working in multithreaded environment.
