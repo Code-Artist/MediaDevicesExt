@@ -20,7 +20,7 @@ namespace MediaDevices
     /// </summary>
     public sealed class MediaDevice : IDisposable
     {
-        
+
         #region Fields
 
         private PortableDeviceApiLib.PortableDevice device;
@@ -30,7 +30,7 @@ namespace MediaDevices
         private IPortableDeviceValues deviceValues;
         private string friendlyName = string.Empty;
         private string eventCookie;
-        private EventCallback eventCallback;        
+        private EventCallback eventCallback;
 
         #endregion
 
@@ -84,109 +84,136 @@ namespace MediaDevices
 
         #endregion
 
-        #region static
+        //#region static
 
-        private static readonly PortableDeviceManager portableDeviceManager = new PortableDeviceManager();
+        //private static PortableDeviceManager portableDeviceManager = new PortableDeviceManager();
 
-        private static List<MediaDevice> devices;
-        private static List<MediaDevice> privateDevices;
+        //private static List<MediaDevice> devices;
+        //private static List<MediaDevice> privateDevices;
 
-        /// <summary>
-        /// Returns an enumerable collection of currently available portable devices.
-        /// </summary>
-        /// <returns>>An enumerable collection of portable devices currently available.</returns>
-        public static IEnumerable<MediaDevice> GetDevices()
-        {
-            portableDeviceManager.RefreshDeviceList();
-
-            // get number of devices
-            uint count = 0;
-            portableDeviceManager.GetDevices(null, ref count);
-
-            if (count == 0)
-            {
-                return new List<MediaDevice>();
-            }
-
-            // get device IDs
-            var deviceIds = new string[count];
-            portableDeviceManager.GetDevices(deviceIds, ref count);
-
-            if (devices == null)
-            {
-                devices = deviceIds.Select(d => new MediaDevice(d)).ToList();
-            }
-            else
-            {
-                UpdateDeviceList(devices, deviceIds);
-            }
-            return devices;
-        }
-
-        private static void UpdateDeviceList(List<MediaDevice> deviceList, string[] deviceIdList)
-        {
-            var idList = deviceIdList.ToList();
-
-            // remove
-            var remove = deviceList.Where(d => !idList.Contains(d.DeviceId)).Select(d => d.DeviceId).ToList();
-            deviceList.RemoveAll(d => remove.Contains(d.DeviceId));
-
-            // add
-            var add = idList.Where(id => !deviceList.Select(d => d.DeviceId).Contains(id)).ToList();
-            deviceList.AddRange(add.Select(id => new MediaDevice(id)));
-        }
-
-        //public static IEnumerable<MediaDevice> GetDevices(FunctionalCategory category)
+        ///// <summary>
+        ///// Returns an enumerable collection of currently available portable devices.
+        ///// </summary>
+        ///// <param name="reloadDevices">If true, this methods clears out all already used devices
+        ///// and recreates the list from scrach. You need to know what you're doing
+        ///// by reseting the list. If some devices are in use, operations on them will be cancelled
+        ///// and deices will be disconnected.</param>
+        ///// <returns>>An enumerable collection of portable devices currently available.</returns>
+        //public static IEnumerable<MediaDevice> GetDevices(bool reloadDevices = false)
         //{
-        //    if (category == FunctionalCategory.All)
+        //    if (reloadDevices)
         //    {
-        //        return GetDevices();
+        //        if (devices != null)
+        //        {
+        //            foreach (var dev in devices)
+        //            {
+        //                dev.DestroyDevice();
+        //            }
+
+        //            devices = null;
+        //        }
+
+        //        portableDeviceManager = new PortableDeviceManager();
         //    }
 
-        //    var devices = GetDevices();
+        //    portableDeviceManager.RefreshDeviceList();
 
-        //    var dev = devices.FirstOrDefault();
+        //    // get number of devices
+        //    uint count = 0;
+        //    portableDeviceManager.GetDevices(null, ref count);
 
-        //    dev.deviceCapabilities
+        //    if (count == 0)
+        //    {
+        //        return new List<MediaDevice>();
+        //    }
+
+        //    // get device IDs
+        //    var deviceIds = new string[count];
+        //    portableDeviceManager.GetDevices(deviceIds, ref count);
+
+        //    if (devices == null)
+        //    {
+        //        devices = deviceIds.Select(d => new MediaDevice(d)).ToList();
+        //    }
+        //    else
+        //    {
+        //        UpdateDeviceList(devices, deviceIds);
+        //    }
+        //    return devices;
         //}
 
-        /// <summary>
-        /// Returns an enumerable collection of currently available private portable devices.
-        /// </summary>
-        /// <returns>>An enumerable collection of private portable devices currently available.</returns>
-        public static IEnumerable<MediaDevice> GetPrivateDevices()
-        {
-            portableDeviceManager.RefreshDeviceList();
+        //private static void UpdateDeviceList(List<MediaDevice> deviceList, string[] deviceIdList)
+        //{
+        //    var idList = deviceIdList.ToList();
 
-            // get number of devices
-            uint count = 0;
-            portableDeviceManager.GetPrivateDevices(null, ref count);
+        //    // remove
+        //    var remove = deviceList.Where(d => !idList.Contains(d.DeviceId)).Select(d => d.DeviceId).ToList();
+        //    deviceList.RemoveAll(d => remove.Contains(d.DeviceId));
 
-            if (count == 0)
-            {
-                return new List<MediaDevice>();
-            }
+        //    // add
+        //    var add = idList.Where(id => !deviceList.Select(d => d.DeviceId).Contains(id)).ToList();
+        //    deviceList.AddRange(add.Select(id => new MediaDevice(id)));
+        //}
 
-            // get device IDs
-            var deviceIds = new string[count];
-            portableDeviceManager.GetPrivateDevices(deviceIds, ref count);
+        ////public static IEnumerable<MediaDevice> GetDevices(FunctionalCategory category)
+        ////{
+        ////    if (category == FunctionalCategory.All)
+        ////    {
+        ////        return GetDevices();
+        ////    }
 
-            if (privateDevices == null)
-            {
-                privateDevices = deviceIds.Select(d => new MediaDevice(d)).ToList();
-            }
-            else
-            {
-                UpdateDeviceList(privateDevices, deviceIds);
-            }
-            return privateDevices;
-        }
+        ////    var devices = GetDevices();
 
-        #endregion
+        ////    var dev = devices.FirstOrDefault();
+
+        ////    dev.deviceCapabilities
+        ////}
+
+        ///// <summary>
+        ///// Returns an enumerable collection of currently available private portable devices.
+        ///// </summary>
+        ///// <returns>>An enumerable collection of private portable devices currently available.</returns>
+        //public static IEnumerable<MediaDevice> GetPrivateDevices()
+        //{
+        //    portableDeviceManager.RefreshDeviceList();
+
+        //    // get number of devices
+        //    uint count = 0;
+        //    portableDeviceManager.GetPrivateDevices(null, ref count);
+
+        //    if (count == 0)
+        //    {
+        //        return new List<MediaDevice>();
+        //    }
+
+        //    // get device IDs
+        //    var deviceIds = new string[count];
+        //    portableDeviceManager.GetPrivateDevices(deviceIds, ref count);
+
+        //    if (privateDevices == null)
+        //    {
+        //        privateDevices = deviceIds.Select(d => new MediaDevice(d)).ToList();
+        //    }
+        //    else
+        //    {
+        //        UpdateDeviceList(privateDevices, deviceIds);
+        //    }
+        //    return privateDevices;
+        //}
+
+        //#endregion
 
         #region constructor
 
-        private MediaDevice(string deviceId)
+        /// <summary>
+        /// Creates a new instance of media device.
+        /// <para>Remember that this instance is tidly connected with <see cref="PortableDeviceManager"/>
+        /// instance and its parent STA thread. Do not try to call this object outside it's apartment,
+        /// it will not work. You will get <see cref="COMException"/>.</para>
+        /// </summary>
+        /// <param name="deviceId">Id of the device to create.</param>
+        /// <param name="portableDeviceManager">An instance of "parent" COM portable device manager.</param>
+        internal MediaDevice(string deviceId, PortableDeviceManager portableDeviceManager)
         {
             this.DeviceId = deviceId;
             this.IsCaseSensitive = false;
@@ -236,6 +263,28 @@ namespace MediaDevices
         public void Dispose()
         {
             Disconnect();
+        }
+
+        /// <summary>
+        /// Disposes all underlaying device resources, detaches event handlers,
+        /// cancels any pending operations on device and finally closes it and removes.
+        /// <para>This instance is unusable after calling this method.</para>
+        /// </summary>
+        internal void DestroyDevice()
+        {
+            if (!string.IsNullOrEmpty(this.eventCookie))
+            {
+                this.device.Unadvise(this.eventCookie);
+                this.eventCookie = null;
+            }
+
+            if (this.IsConnected)
+            {
+                this.Cancel();
+            }
+
+            this.Dispose();
+            this.device = null;
         }
 
         /// <summary>
@@ -547,7 +596,7 @@ namespace MediaDevices
         {
             get
             {
-                
+
                 if (!this.IsConnected)
                 {
                     throw new NotConnectedException("Not connected");
@@ -667,7 +716,7 @@ namespace MediaDevices
             this.device.Capabilities(out this.deviceCapabilities);
             this.device.Content(out this.deviceContent);
             this.deviceContent.Properties(out this.deviceProperties);
-            this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);            
+            this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);
 
             // advice event handler
             this.eventCallback = new EventCallback(this);
@@ -706,7 +755,7 @@ namespace MediaDevices
             }
             this.device.Cancel();
         }
-        
+
         /// <summary>
         /// Returns an enumerable collection of directory names in a specified path.
         /// </summary>
@@ -911,10 +960,10 @@ namespace MediaDevices
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            
+
             return item.GetChildren(FilterToRegex(searchPattern), searchOption).Select(i => i.FullName);
         }
-        
+
         /// <summary>
         /// Creates all directories and subdirectories in the specified path.
         /// </summary>
@@ -1031,13 +1080,13 @@ namespace MediaDevices
             {
                 throw new FileNotFoundException($"File {path} not found.");
             }
-            
+
             using (Stream sourceStream = item.OpenRead())
             {
                 sourceStream.CopyTo(stream);
             }
         }
-        
+
         /// <summary>
         /// Upload data from a stream to a file on a portable device.
         /// </summary>
@@ -1133,7 +1182,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = Item.FindFile(this, path); 
+            Item item = Item.FindFile(this, path);
             if (item == null)
             {
                 throw new FileNotFoundException($"File {path} not found.");
@@ -1387,7 +1436,7 @@ namespace MediaDevices
             }
 
             try
-            { 
+            {
                 IPortableDevicePropVariantCollection events;
                 this.deviceCapabilities.GetSupportedEvents(out events);
                 return events.ToEnum<Events>();
@@ -1497,7 +1546,7 @@ namespace MediaDevices
 
             if (itemId != null)
             {
-                var fileInfo =  new MediaFileInfo(this, Item.Create(this, itemId));
+                var fileInfo = new MediaFileInfo(this, Item.Create(this, itemId));
                 return fileInfo;
             }
 
@@ -1669,7 +1718,7 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException("functionalObject");
             }
-            
+
             Command cmd = Command.Create(WPD.COMMAND_SMS_SEND);
             cmd.Add(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
             cmd.Add(WPD.PROPERTY_SMS_RECIPIENT, recipient);
@@ -1712,7 +1761,7 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException("functionalObject");
             }
-            
+
             Command cmd = Command.Create(WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE);
             cmd.Add(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
             return cmd.Send(this.device);
@@ -1727,35 +1776,35 @@ namespace MediaDevices
 
             switch (eventEnum)
             {
-            case Events.ObjectAdded:
-                this.ObjectAdded?.Invoke(this, new ObjectAddedEventArgs(eventEnum, this, eventParameters));
-                break;
-            case Events.ObjectRemoved:
-                this.ObjectRemoved?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
-                break;
-            case Events.ObjectUpdated:
-                this.ObjectUpdated?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
-                break;
-            case Events.DeviceReset:
-                this.DeviceReset?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
-                break;
-            case Events.DeviceCapabilitiesUpdated:
-                this.DeviceCapabilitiesUpdated?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
-                break;
-            case Events.StorageFormat:
-                this.StorageFormat?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
-                break;
-            case Events.ObjectTransferRequest:
-                this.ObjectTransferRequest?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
-                break;
-            case Events.DeviceRemoved:
-                this.DeviceRemoved?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
-                break;
-            case Events.ServiceMethodComplete:
-                this.ServiceMethodComplete?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
-                break;
-            default:
-                break;
+                case Events.ObjectAdded:
+                    this.ObjectAdded?.Invoke(this, new ObjectAddedEventArgs(eventEnum, this, eventParameters));
+                    break;
+                case Events.ObjectRemoved:
+                    this.ObjectRemoved?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+                    break;
+                case Events.ObjectUpdated:
+                    this.ObjectUpdated?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+                    break;
+                case Events.DeviceReset:
+                    this.DeviceReset?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+                    break;
+                case Events.DeviceCapabilitiesUpdated:
+                    this.DeviceCapabilitiesUpdated?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+                    break;
+                case Events.StorageFormat:
+                    this.StorageFormat?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+                    break;
+                case Events.ObjectTransferRequest:
+                    this.ObjectTransferRequest?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+                    break;
+                case Events.DeviceRemoved:
+                    this.DeviceRemoved?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+                    break;
+                case Events.ServiceMethodComplete:
+                    this.ServiceMethodComplete?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -1812,7 +1861,7 @@ namespace MediaDevices
                 this.deviceProperties.GetSupportedProperties(storageObjectId, out IPortableDeviceKeyCollection ppKeys);
                 ComTrace.WriteObject(ppKeys);
                 this.deviceProperties.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
-           
+
                 values.TryGetUnsignedIntegerValue(WPD.STORAGE_TYPE, out uint type);
                 info.Type = (StorageType)type;
 
@@ -1994,7 +2043,7 @@ namespace MediaDevices
         #endregion
 
         #region Intern Methods
-        
+
         internal static bool IsPath(string path)
         {
             return !string.IsNullOrWhiteSpace(path) && path.IndexOfAny(Path.GetInvalidPathChars()) < 0;
@@ -2004,7 +2053,7 @@ namespace MediaDevices
         {
             return this.IsCaseSensitive ? a == b : string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
         }
-        
+
         internal static string FilterToRegex(string filter)
         {
             if (filter == "*" || filter == "*.*")

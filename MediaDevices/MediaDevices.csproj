@@ -84,6 +84,7 @@
     <Compile Include="MediaFileAttributes.cs" />
     <Compile Include="MediaFileInfo.cs" />
     <Compile Include="MediaFileSystemInfo.cs" />
+    <Compile Include="MediaManager.cs" />
     <Compile Include="MediaStorageInfo.cs" />
     <Compile Include="NotConnectedException.cs" />
     <Compile Include="ObjectAddedEventArgs.cs" />
