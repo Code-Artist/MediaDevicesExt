@@ -345,8 +345,24 @@ namespace MediaDevices.Internal
             objectIds.Next(1, out string objectId, ref fetched);
             while (fetched > 0)
             {
-                Item item = Item.Create(this.device, objectId, this.FullName);
-                yield return item;
+                Item item = null;
+
+                try
+                {
+                    item = Item.Create(this.device, objectId, this.FullName);
+                }
+                catch (FileNotFoundException)
+                {
+                    // handle system files, that cannot be opened or read.
+                    // Windows sometimes creates a fake files in e.g. System Volume Information.
+                    // Let's handle such situations.
+                }
+
+                if (item != null)
+                {
+                    yield return item;
+                }
+
                 objectIds.Next(1, out objectId, ref fetched);
             }
         }
@@ -359,19 +375,36 @@ namespace MediaDevices.Internal
             objectIds.Next(1, out string objectId, ref fetched);
             while (fetched > 0)
             {
-                Item item = Item.Create(this.device, objectId, this.FullName);
-                if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+                Item item = null;
+
+                try
                 {
-                    yield return item;
+                    item = Item.Create(this.device, objectId, this.FullName);
                 }
-                if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
+                catch (FileNotFoundException)
                 {
-                    var children = item.GetChildren(pattern, searchOption);
-                    foreach (var c in children)
+                    // handle system files, that cannot be opened or read.
+                    // Windows sometimes creates a fake files in e.g. System Volume Information.
+                    // Let's handle such situations.
+                }
+
+                if (item != null)
+                {
+                    if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
                     {
-                        yield return c;
+                        yield return item;
+                    }
+
+                    if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
+                    {
+                        var children = item.GetChildren(pattern, searchOption);
+                        foreach (var c in children)
+                        {
+                            yield return c;
+                        }
                     }
                 }
+
                 objectIds.Next(1, out objectId, ref fetched);
             }
         }
