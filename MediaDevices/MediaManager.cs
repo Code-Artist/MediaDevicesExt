@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,10 +36,6 @@ namespace MediaDevices
         /// <summary>
         /// Returns an enumerable collection of currently available portable devices.
         /// </summary>
-        /// <param name="reloadDevices">If true, this methods clears out all already used devices
-        /// and recreates the list from scrach. You need to know what you're doing
-        /// by reseting the list. If some devices are in use, operations on them will be cancelled
-        /// and deices will be disconnected.</param>
         /// <returns>>An enumerable collection of portable devices currently available.</returns>
         public IEnumerable<MediaDevice> GetDevices()
         {
@@ -113,6 +110,10 @@ namespace MediaDevices
             return privateDevices;
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             if (devices != null)
