@@ -4,13 +4,13 @@
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>Ralf Beckers</authors>
-    <owners>Ralf Beckers</owners>
-	<projectUrl>https://github.com/Bassman2/MediaDevices</projectUrl>
+    <authors>Bright Shadow</authors>
+    <owners>Bright Shadow</owners>
+	<projectUrl>https://github.com/BrightShadow/MediaDevicesExt</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>API to communicate with MTP / WPD devices like smart phones, tablets and cameras. Documentation included.</description>
     <releaseNotes>Rename and MediaDriveInfo added.</releaseNotes>
-    <copyright>Copyright 2016 - 2018 by Ralf Beckers</copyright>
+    <copyright>Copyright 2018+ by Bright Shadow</copyright>
     <tags>MTP WPD PortableDevice PortableDevices API phone tablet</tags>
 	<dependencies>
       <group targetFramework=".NETFramework4.5" />
