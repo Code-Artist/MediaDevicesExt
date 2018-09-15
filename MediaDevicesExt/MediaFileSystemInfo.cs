@@ -12,7 +12,7 @@ namespace MediaDevices
     /// Provides the base class for both MediaFileInfo and MediaDirectoryInfo objects.
     /// </summary>
     [DebuggerDisplay("{FullName}")]
-    public abstract class MediaFileSystemInfo
+    public class MediaFileSystemInfo
     {
         /// <summary>
         ///corresponding MediaDevice instance

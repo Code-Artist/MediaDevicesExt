@@ -367,6 +367,70 @@ namespace MediaDevices.Internal
             }
         }
 
+        public IList<Item> GetChildrenList()
+        {
+            this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs objectIds);
+            var result = new List<Item>();
+            uint fetched = 0;
+            objectIds.Next(1, out string objectId, ref fetched);
+
+            while (fetched > 0)
+            {
+                Item item = null;
+
+                try
+                {
+                    item = Item.Create(this.device, objectId, this.FullName);
+                }
+                catch (FileNotFoundException)
+                {
+                    // handle system files, that cannot be opened or read.
+                    // Windows sometimes creates a fake files in e.g. System Volume Information.
+                    // Let's handle such situations.
+                }
+
+                if (item != null)
+                {
+                    result.Add(item);
+                }
+
+                objectIds.Next(1, out objectId, ref fetched);
+            }
+
+            return result;
+        }
+
+
+        //public IEnumerable<Item> GetChildrenRaw()
+        //{
+        //    this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs objectIds);
+
+        //    uint fetched = 0;
+        //    objectIds.Next(1, out string objectId, ref fetched);
+        //    while (fetched > 0)
+        //    {
+        //        Item item = null;
+
+        //        try
+        //        {
+        //            item = Item.Create(this.device, objectId, this.FullName);
+        //        }
+        //        catch (FileNotFoundException)
+        //        {
+        //            // handle system files, that cannot be opened or read.
+        //            // Windows sometimes creates a fake files in e.g. System Volume Information.
+        //            // Let's handle such situations.
+        //        }
+
+        //        if (item != null)
+        //        {
+        //            yield return item;
+        //        }
+
+        //        objectIds.Next(1, out objectId, ref fetched);
+        //    }
+        //}
+
         public IEnumerable<Item> GetChildren(string pattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs objectIds);

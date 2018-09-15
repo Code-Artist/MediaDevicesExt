@@ -66,6 +66,21 @@ namespace MediaDevices
         }
 
         /// <summary>
+        /// Returns an enumerable collection of directories and fiels information in the current directory.
+        /// </summary>
+        /// <returns>An enumerable collection of directories and fiels information in the current directory.</returns>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public IEnumerable<MediaFileSystemInfo> EnumerateFilesAndFolders()
+        {
+            if (!this.device.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+            return this.item.GetChildrenList().Select(i => new MediaFileSystemInfo(this.device, i));
+        }
+
+        /// <summary>
         /// Returns an enumerable collection of directory information in the current directory.
         /// </summary>
         /// <returns>An enumerable collection of directories in the current directory.</returns>
