@@ -362,14 +362,16 @@ namespace MediaDevices
         {
             get
             {
-                if (IsConnected)
+                //Some devices like Apple (iPhones, iPods) prevents to get device friendly name by using device properties
+				// Probably Apple security reasons (??). So if we have problems just take the old value that has been loaded from
+				// device directly - in constructor.
+				if (IsConnected && this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val))
                 {
-                    this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val);
                     return val;
                 }
                 else
                 {
-                    return this.friendlyName;
+                    return this.friendlyName; // fetched before through device, not properties
                 }
             }
             set
