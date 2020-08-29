@@ -227,7 +227,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
                 this.Description = string.Empty;
             }
             try
@@ -238,7 +238,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
                 this.friendlyName = string.Empty;
             }
             try
@@ -249,7 +249,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
                 this.Description = string.Empty;
             }
 
@@ -303,7 +303,7 @@ namespace MediaDevices
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
 
             try
@@ -312,7 +312,7 @@ namespace MediaDevices
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
 
             try
@@ -321,7 +321,7 @@ namespace MediaDevices
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
 
             return $"{friendlyName} - {manufacturer} - {description}";
@@ -1341,7 +1341,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
             return null;
         }
@@ -1366,7 +1366,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
             return null;
         }
@@ -1392,7 +1392,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
             return null;
         }
@@ -1419,7 +1419,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
             return null;
         }
@@ -1445,7 +1445,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
             return null;
         }
@@ -1490,7 +1490,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
             return null;
         }
@@ -1608,7 +1608,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Trace.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
 
             return null;
