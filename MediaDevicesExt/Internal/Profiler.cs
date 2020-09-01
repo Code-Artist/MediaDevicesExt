@@ -5,8 +5,8 @@ namespace MediaDevices.Internal
 {
     internal sealed class Profiler : IDisposable
     {
-        private Stopwatch stopwatch;
-        private string title;
+        private readonly Stopwatch stopwatch;
+        private readonly string title;
 
         public Profiler(string title)
         {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MediaDevices
+﻿namespace MediaDevices
 {
     /// <summary>
     /// Media Device HRESULTS
@@ -172,38 +166,38 @@ May be used to indicate that the device has stopped responding (hung). The devic
         /// </summary>
         ERROR_NOT_FOUND = 0x80070490,
 
- /*
- ERROR_NOT_READY0x80070015 
-May be used to indicate that an operation is not initialized correctly. This usually indicates an internal error, or that the application is using a stale device handle. The application should retry the operation from the beginning, or reopen the device.
- 
- ERROR_NOT_SUPPORTED0x80070032 
-May be used to indicate that a property or command is not supported by the device.
- 
- ERROR_OPERATION_ABORTED0x800703E3 
-A command sent to the device has been aborted due to a manual cancellation, e.g. by calling one of the Cancel methods in the WPD API. 
- 
- ERROR_READ_FAULT0x8007001E 
-May be used to indicate that the device is not sending the correct amount of data.
- 
- ERROR_RESOURCE_NOT_AVAILABLE0x8007138E 
-May be used to indicate that a resource (such as a thumbnail or an icon) is not present on the device.
- 
- ERROR_SEM_TIMEOUT0x80070079 
-May be used to indicate that the device has stopped responding (hung). The device may need to be manually reset.
- 
- ERROR_TIMEOUT0x800705B4 
-May be used to indicate that the device has stopped responding (hung). The device may need to be manually reset.
- 
- ERROR_UNSUPPORTED_TYPE0x8007065E 
-May be used to indicate that the specified format is not supported by the device.
- 
- ERROR_WRITE_FAULT0x8007001D 
-May be used to indicate that the application was unable to send the requested amount of data to the device.
- 
- WSAETIMEDOUT0x8007274c 
-For an MTP/IP device, indicates that the connection to the device has timed out. The device may need to be manually reconnected.
- 
-*/
+        /*
+        ERROR_NOT_READY0x80070015 
+       May be used to indicate that an operation is not initialized correctly. This usually indicates an internal error, or that the application is using a stale device handle. The application should retry the operation from the beginning, or reopen the device.
+
+        ERROR_NOT_SUPPORTED0x80070032 
+       May be used to indicate that a property or command is not supported by the device.
+
+        ERROR_OPERATION_ABORTED0x800703E3 
+       A command sent to the device has been aborted due to a manual cancellation, e.g. by calling one of the Cancel methods in the WPD API. 
+
+        ERROR_READ_FAULT0x8007001E 
+       May be used to indicate that the device is not sending the correct amount of data.
+
+        ERROR_RESOURCE_NOT_AVAILABLE0x8007138E 
+       May be used to indicate that a resource (such as a thumbnail or an icon) is not present on the device.
+
+        ERROR_SEM_TIMEOUT0x80070079 
+       May be used to indicate that the device has stopped responding (hung). The device may need to be manually reset.
+
+        ERROR_TIMEOUT0x800705B4 
+       May be used to indicate that the device has stopped responding (hung). The device may need to be manually reset.
+
+        ERROR_UNSUPPORTED_TYPE0x8007065E 
+       May be used to indicate that the specified format is not supported by the device.
+
+        ERROR_WRITE_FAULT0x8007001D 
+       May be used to indicate that the application was unable to send the requested amount of data to the device.
+
+        WSAETIMEDOUT0x8007274c 
+       For an MTP/IP device, indicates that the connection to the device has timed out. The device may need to be manually reconnected.
+
+       */
 
         /*
         0x80042003 0x2003 Session Not Open Indicates that the session handle of the operation is not a currently open session. This indicates an internal error in the MTP stack. 

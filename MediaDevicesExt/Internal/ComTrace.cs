@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PortableDeviceApiLib;
+using System;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PortableDeviceApiLib;
-using PortableDeviceTypesLib;
 using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
-using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
+using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 using PropertyKey = PortableDeviceApiLib._tagpropertykey;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
-using System.Diagnostics;
 
 namespace MediaDevices.Internal
 {

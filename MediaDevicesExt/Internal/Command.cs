@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using PortableDeviceApiLib;
+﻿using PortableDeviceApiLib;
 using PortableDeviceTypesLib;
-using PropertyKey = PortableDeviceApiLib._tagpropertykey;
-using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
-using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
+using System;
+using System.Collections.Generic;
 using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
-using System.Runtime.InteropServices;
+using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
+using PropertyKey = PortableDeviceApiLib._tagpropertykey;
+using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 
 namespace MediaDevices.Internal
 {
     internal class Command
     {
-        private IPortableDeviceValues values;
+        private readonly IPortableDeviceValues values;
         private IPortableDeviceValues result;
 
         private Command(PropertyKey commandKey)
         {
             this.values = (IPortableDeviceValues)new PortableDeviceValues();
-            
+
             this.values.SetGuidValue(WPD.PROPERTY_COMMON_COMMAND_CATEGORY, commandKey.fmtid);
             this.values.SetUnsignedIntegerValue(WPD.PROPERTY_COMMON_COMMAND_ID, commandKey.pid);
         }
@@ -51,10 +46,10 @@ namespace MediaDevices.Internal
         {
             this.values.SetIPortableDevicePropVariantCollectionValue(key, value);
         }
-        
+
         public void Add(PropertyKey key, IEnumerable<int> values)
         {
-            PortableDeviceApiLib.IPortableDevicePropVariantCollection col = (PortableDeviceApiLib.IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();
+            PortableDeviceApiLib.IPortableDevicePropVariantCollection col = (PortableDeviceApiLib.IPortableDevicePropVariantCollection)new PortableDevicePropVariantCollection();
             foreach (var value in values)
             {
                 var var = PropVariant.IntToPropVariant(value);
@@ -94,13 +89,13 @@ namespace MediaDevices.Internal
             this.result.GetStringValue(key, out value);
             return value;
         }
-        
-        public IEnumerable<PropVariant> GetPropVariants(PropertyKey key) 
+
+        public IEnumerable<PropVariant> GetPropVariants(PropertyKey key)
         {
             object obj = null;
             this.result.GetIUnknownValue(key, out obj);
             var col = obj as IPortableDevicePropVariantCollection;
-        
+
             uint count = 0;
             col.GetCount(ref count);
             for (uint i = 0; i < count; i++)
@@ -136,12 +131,12 @@ namespace MediaDevices.Internal
             result.GetErrorValue(WPD.PROPERTY_COMMON_HRESULT, out error);
             switch ((HResult)error)
             {
-            case HResult.S_OK:
-                return true;
-            case HResult.E_NOT_IMPLEMENTED:
-                return false;
-            default:
-                throw new Exception($"Error {error:X}");
+                case HResult.S_OK:
+                    return true;
+                case HResult.E_NOT_IMPLEMENTED:
+                    return false;
+                default:
+                    throw new Exception($"Error {error:X}");
             }
         }
     }

@@ -1,12 +1,8 @@
-﻿using System;
+﻿using MediaDevices.Internal;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using MediaDevices.Internal;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace MediaDevices
 {
@@ -156,8 +152,8 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return this.item.GetChildren().Select(i => i.Type == ItemType.File ? 
-                        (MediaFileSystemInfo)new MediaFileInfo(this.device, i) : 
+            return this.item.GetChildren().Select(i => i.Type == ItemType.File ?
+                        new MediaFileInfo(this.device, i) :
                         (MediaFileSystemInfo)new MediaDirectoryInfo(this.device, i));
         }
 
@@ -177,7 +173,7 @@ namespace MediaDevices
             }
 
             return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern), searchOption).Select(i => i.Type == ItemType.File ?
-                        (MediaFileSystemInfo)new MediaFileInfo(this.device, i) :
+                        new MediaFileInfo(this.device, i) :
                         (MediaFileSystemInfo)new MediaDirectoryInfo(this.device, i));
         }
     }

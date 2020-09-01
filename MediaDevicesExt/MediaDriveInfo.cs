@@ -1,10 +1,5 @@
 ﻿using MediaDevices.Internal;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaDevices
 {
@@ -13,9 +8,9 @@ namespace MediaDevices
     /// </summary>
     public sealed class MediaDriveInfo
     {
-        private MediaDevice device;
-        private string objectId;
-        private MediaStorageInfo info;
+        private readonly MediaDevice device;
+        private readonly string objectId;
+        private readonly MediaStorageInfo info;
 
         internal MediaDriveInfo(MediaDevice device, string objectId)
         {
@@ -30,21 +25,21 @@ namespace MediaDevices
 
             switch (this.info.Type)
             {
-                case StorageType.FixedRam: 
+                case StorageType.FixedRam:
                 case StorageType.FixedRom:
                     this.DriveType = DriveType.Fixed;
                     break;
-                case StorageType.RemovableRam: 
+                case StorageType.RemovableRam:
                 case StorageType.RemovableRom:
                     this.DriveType = DriveType.Removable;
                     break;
-                case StorageType.Undefined: 
+                case StorageType.Undefined:
                 default:
                     this.DriveType = DriveType.Unknown;
                     break;
             }
 
-            
+
             this.RootDirectory = new MediaDirectoryInfo(this.device, Item.Create(this.device, this.objectId));
             this.Name = this.RootDirectory.FullName;
             this.VolumeLabel = this.info.Description;

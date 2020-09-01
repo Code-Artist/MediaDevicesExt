@@ -28,7 +28,7 @@ namespace MediaDevices
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
         /// <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
-        public NotConnectedException(string message, Exception innerException) 
+        public NotConnectedException(string message, Exception innerException)
             : base(message, innerException)
         { }
     }

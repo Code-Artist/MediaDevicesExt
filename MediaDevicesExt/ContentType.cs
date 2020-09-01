@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaDevices
 {
@@ -146,13 +142,13 @@ namespace MediaDevices
         /// <summary>
         /// Indicates this object represents a message (e.g. SMS message, E-Mail message, etc.)
         /// </summary>
-        [Guid(0xE80EAAF8, 0xB2DB, 0x4133, 0xB6, 0x7E, 0x1B, 0xEF, 0x4B, 0x4A, 0x6E, 0x5F)] 
+        [Guid(0xE80EAAF8, 0xB2DB, 0x4133, 0xB6, 0x7E, 0x1B, 0xEF, 0x4B, 0x4A, 0x6E, 0x5F)]
         GenericMessage,
 
         /// <summary>
         /// Indicates this object represents an association between a host and a device.     
         /// </summary>
-        [Guid(0x031DA7EE, 0x18C8, 0x4205, 0x84, 0x7E, 0x89, 0xA1, 0x12, 0x61, 0xD0, 0xF3)]     
+        [Guid(0x031DA7EE, 0x18C8, 0x4205, 0x84, 0x7E, 0x89, 0xA1, 0x12, 0x61, 0xD0, 0xF3)]
         NetworkAssociation,
 
         /// <summary>
@@ -194,6 +190,6 @@ namespace MediaDevices
         /// It should not be reported as a supported content type by the driver.
         /// </summary>
         [Guid(0x80E170D2, 0x1055, 0x4A3E, 0xB9, 0x52, 0x82, 0xCC, 0x4F, 0x8A, 0x86, 0x89)]
-        All                      
+        All
     }
 }

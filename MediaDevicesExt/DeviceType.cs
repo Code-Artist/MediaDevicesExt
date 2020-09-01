@@ -9,12 +9,12 @@
         /// generic device type
         /// </summary>
         Generic = 0,
-        
+
         /// <summary>
         /// camera device type
         /// </summary>
         Camera = 1,
-        
+
         /// <summary>
         /// media player device type
         /// </summary>

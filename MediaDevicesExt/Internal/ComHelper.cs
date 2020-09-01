@@ -21,7 +21,7 @@ namespace MediaDevices.Internal
                     PropVariant pval = val;
                     return pval.variantType != VarType.VT_ERROR;
                 }
-                
+
             }
             return false;
         }
@@ -39,7 +39,7 @@ namespace MediaDevices.Internal
             {
                 PROPVARIANT val;
                 values.GetValue(key, out val);
-                value = (PropVariant)val;
+                value = val;
                 return true;
             }
             value = new PropVariant();
@@ -52,7 +52,7 @@ namespace MediaDevices.Internal
             {
                 PROPVARIANT val;
                 values.GetValue(key, out val);
-                value = ((PropVariant)val).ToDate(); 
+                value = ((PropVariant)val).ToDate();
                 return true;
             }
             value = null;
@@ -67,7 +67,7 @@ namespace MediaDevices.Internal
                 return true;
             }
             value = string.Empty;
-            return false;            
+            return false;
         }
 
         public static bool TryGetGuidValue(this IPortableDeviceValues values, PropertyKey key, out Guid value)

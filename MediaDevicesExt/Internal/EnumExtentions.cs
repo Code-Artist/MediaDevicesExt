@@ -1,11 +1,9 @@
-﻿using System;
+﻿using PortableDeviceApiLib;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using PortableDeviceApiLib;
 using PropertyKey = PortableDeviceApiLib._tagpropertykey;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 
@@ -72,7 +70,7 @@ namespace MediaDevices.Internal
             return en;
         }
 
-        public static IEnumerable<Guid> ToGuid(this IPortableDevicePropVariantCollection col) 
+        public static IEnumerable<Guid> ToGuid(this IPortableDevicePropVariantCollection col)
         {
             uint count = 0;
             col.GetCount(ref count);

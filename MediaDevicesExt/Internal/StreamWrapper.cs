@@ -46,7 +46,7 @@ namespace MediaDevices
 
             this.stream = (IStream)stream;
         }
-         
+
 
         public override bool CanRead
         {
@@ -149,20 +149,20 @@ namespace MediaDevices
 
             switch (origin)
             {
-            case SeekOrigin.Begin:
-                dwOrigin = 0;   // STREAM_SEEK_SET
-                break;
+                case SeekOrigin.Begin:
+                    dwOrigin = 0;   // STREAM_SEEK_SET
+                    break;
 
-            case SeekOrigin.Current:
-                dwOrigin = 1;   // STREAM_SEEK_CUR
-                break;
+                case SeekOrigin.Current:
+                    dwOrigin = 1;   // STREAM_SEEK_CUR
+                    break;
 
-            case SeekOrigin.End:
-                dwOrigin = 2;   // STREAM_SEEK_END
-                break;
+                case SeekOrigin.End:
+                    dwOrigin = 2;   // STREAM_SEEK_END
+                    break;
 
-            default:
-                throw new ArgumentOutOfRangeException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             IntPtr posPtr = Marshal.AllocCoTaskMem(sizeof(long));

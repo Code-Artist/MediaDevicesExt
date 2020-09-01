@@ -1,19 +1,15 @@
-﻿using System.Diagnostics;
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Linq;
-using PortableDeviceApiLib;
+﻿using PortableDeviceApiLib;
 using PortableDeviceTypesLib;
-using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
-using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
-using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
-using PropertyKey = PortableDeviceApiLib._tagpropertykey;
-using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
-using MediaDevices.Internal;
-using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
+using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
+using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 
 namespace MediaDevices.Internal
 {
@@ -21,11 +17,11 @@ namespace MediaDevices.Internal
     [DebuggerDisplay("{this.Type} - {this.Name} - {this.Id}")]
     internal class Item
     {
-        private MediaDevice device;
-        private IPortableDeviceProperties deviceProperties;
-        private IPortableDeviceKeyCollection keyCollection;
+        private readonly MediaDevice device;
+        private readonly IPortableDeviceProperties deviceProperties;
+        private readonly IPortableDeviceKeyCollection keyCollection;
         private IPortableDeviceValues values;
-        private string path;
+        private readonly string path;
         private Item parent;
 
         private const uint PORTABLE_DEVICE_DELETE_NO_RECURSION = 0;
@@ -34,7 +30,7 @@ namespace MediaDevices.Internal
         internal char DirectorySeparatorChar = '\\';
 
         public const string RootId = "DEVICE";
-        
+
         public static Item GetRoot(MediaDevice device)
         {
             return new Item(device, RootId, @"\");
@@ -82,7 +78,7 @@ namespace MediaDevices.Internal
         public ItemType Type { get; private set; }
 
         public bool IsRoot { get { return this.Id == RootId; } }
-        
+
         private Item(MediaDevice device, string id, string path)
         {
             this.device = device;
@@ -135,7 +131,7 @@ namespace MediaDevices.Internal
             }
         }
 
-        public void Refresh() 
+        public void Refresh()
         {
             if (this.Id != Item.RootId)
             {
@@ -215,7 +211,7 @@ namespace MediaDevices.Internal
                 this.values.TryGetStringValue(WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID, out string value);
                 return value;
             }
-        }        
+        }
 
         public string OriginalFileName
         {
@@ -518,7 +514,7 @@ namespace MediaDevices.Internal
             var propVariantValue = PropVariant.StringToPropVariant(this.Id);
             objectIdCollection.Add(ref propVariantValue);
 
-            IPortableDevicePropVariantCollection results = (PortableDeviceApiLib.IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();
+            IPortableDevicePropVariantCollection results = (PortableDeviceApiLib.IPortableDevicePropVariantCollection)new PortableDevicePropVariantCollection();
             // TODO: get the results back and handle failures correctly
             this.device.deviceContent.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, null);
 
@@ -577,7 +573,7 @@ namespace MediaDevices.Internal
             {
                 return storageRoot.RootDirectory.item;
             }
-            
+
             return null;
         }
 
@@ -618,12 +614,12 @@ namespace MediaDevices.Internal
         {
             IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
             IPortableDeviceValues result;
-            
+
             portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, newName);
             portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, newName);
             this.deviceProperties.SetValues(this.Id, portableDeviceValues, out result);
             //ComTrace.WriteObject(result);
-                        
+
             Refresh();
         }
 

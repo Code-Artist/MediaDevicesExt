@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaDevices
 {
@@ -30,7 +28,7 @@ namespace MediaDevices
         /// </summary>
         public MediaManager()
         {
-            this.portableDeviceManager = new PortableDeviceManager();            
+            this.portableDeviceManager = new PortableDeviceManager();
         }
 
         /// <summary>
@@ -125,6 +123,60 @@ namespace MediaDevices
 
                 devices = null;
             }
+        }
+
+        /// <summary>
+        /// Check if a device with given description is connected with MTP / PTP enabled.
+        /// By default, some Android device is connected as USB charging only.
+        /// </summary>
+        /// <param name="deviceDescription">Device description</param>
+        /// <returns>true if device connected with MTP / PTP capability.</returns>
+        public bool IsDeviceConnected(string deviceDescription)
+        {
+            MediaDevice ptrDevice = GetDevices().FirstOrDefault(x => x.Description == deviceDescription);
+            if (ptrDevice == null) return false;
+
+            //Enumerate Directory to ensure Media Device in MTP or PTP Mode.
+            //By default, Android device is connected as USB Charging only with no file access.
+            ptrDevice.Connect();
+            MediaDirectoryInfo rootInfo = ptrDevice.GetRootDirectory();
+            try
+            {
+                var dirs = rootInfo.EnumerateDirectories();
+                if (rootInfo.EnumerateDirectories().Count() > 0)
+                {
+                    ptrDevice.Dispose(); ptrDevice = null;
+                    return true;
+                }
+            }
+            catch { ptrDevice.Dispose(); ptrDevice = null; }
+            return false;
+        }
+
+        /// <summary>
+        /// Find and return device by description. Only return device which connected as MTP / PTP.
+        /// </summary>
+        /// <param name="deviceDescription">Device description</param>
+        /// <returns></returns>
+        public MediaDevice GetDevice(string deviceDescription)
+        {
+            MediaDevice ptrDevice = GetDevices().FirstOrDefault(x => x.Description == deviceDescription);
+            if (ptrDevice == null) return null;
+
+            //Enumerate Directory to ensure Media Device in MTP or PTP Mode.
+            //By default, Android device is connected as USB Charging only with no file access.
+            ptrDevice.Connect();
+            MediaDirectoryInfo rootInfo = ptrDevice.GetRootDirectory();
+            try
+            {
+                var dirs = rootInfo.EnumerateDirectories();
+                if (rootInfo.EnumerateDirectories().Count() > 0)
+                {
+                    return ptrDevice;
+                }
+            }
+            catch { ptrDevice.Dispose(); ptrDevice = null; }
+            return null;
         }
     }
 }

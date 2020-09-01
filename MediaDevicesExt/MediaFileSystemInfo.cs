@@ -1,10 +1,6 @@
 ﻿using MediaDevices.Internal;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaDevices
 {
@@ -45,7 +41,7 @@ namespace MediaDevices
         protected MediaDirectoryInfo ParentDirectoryInfo
         {
             get
-            { 
+            {
                 if (this.parent == null && this.item.Parent != null)
                 {
                     this.parent = new MediaDirectoryInfo(this.device, this.item.Parent);
@@ -130,21 +126,21 @@ namespace MediaDevices
                 MediaFileAttributes attributes = MediaFileAttributes.Normal;
                 switch (this.item.Type)
                 {
-                case ItemType.File:
-                    attributes = MediaFileAttributes.Normal;
-                    break;
-                case ItemType.Folder:
-                    attributes = MediaFileAttributes.Directory;
-                    break;
-                case ItemType.Object:
-                    attributes = MediaFileAttributes.Object;
-                    break;
+                    case ItemType.File:
+                        attributes = MediaFileAttributes.Normal;
+                        break;
+                    case ItemType.Folder:
+                        attributes = MediaFileAttributes.Directory;
+                        break;
+                    case ItemType.Object:
+                        attributes = MediaFileAttributes.Object;
+                        break;
                 }
                 attributes |= this.item.CanDelete ? MediaFileAttributes.CanDelete : 0;
                 attributes |= this.item.IsSystem ? MediaFileAttributes.System : 0;
                 attributes |= this.item.IsHidden ? MediaFileAttributes.Hidden : 0;
                 attributes |= this.item.IsDRMProtected ? MediaFileAttributes.DRMProtected : 0;
-                return attributes; 
+                return attributes;
             }
         }
 

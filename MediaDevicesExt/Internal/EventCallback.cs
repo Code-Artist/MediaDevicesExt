@@ -1,15 +1,10 @@
 ﻿using PortableDeviceApiLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaDevices
 {
     internal class EventCallback : IPortableDeviceEventCallback
     {
-        private MediaDevice device;
+        private readonly MediaDevice device;
 
         public EventCallback(MediaDevice device)
         {

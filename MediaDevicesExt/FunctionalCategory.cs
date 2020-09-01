@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaDevices
 {
@@ -76,6 +72,6 @@ namespace MediaDevices
         /// It should not be reported as a supported functional category by the driver.
         /// </summary>                  
         [Guid(0x2D8A6512, 0xA74C, 0x448E, 0xBA, 0x8A, 0xF4, 0xAC, 0x07, 0xC4, 0x93, 0x99)]
-        All                   
+        All
     }
 }

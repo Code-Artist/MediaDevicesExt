@@ -1,5 +1,6 @@
 ﻿using MediaDevices.Internal;
 using PortableDeviceApiLib;
+using PortableDeviceTypesLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,11 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using PROPVARIANT = PortableDeviceTypesLib.tag_inner_PROPVARIANT;
 using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
 using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
 using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
-using PortableDeviceTypesLib;
 
 namespace MediaDevices
 {
@@ -28,7 +27,7 @@ namespace MediaDevices
         internal IPortableDeviceProperties deviceProperties;
         private IPortableDeviceCapabilities deviceCapabilities;
         private IPortableDeviceValues deviceValues;
-        private string friendlyName = string.Empty;
+        private readonly string friendlyName = string.Empty;
         private string eventCookie;
         private EventCallback eventCallback;
 
@@ -227,7 +226,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                //Debug.WriteLine(ex.ToString());
                 this.Description = string.Empty;
             }
             try
@@ -238,7 +237,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                //Debug.WriteLine(ex.ToString());
                 this.friendlyName = string.Empty;
             }
             try
@@ -249,7 +248,7 @@ namespace MediaDevices
             }
             catch (COMException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                //Debug.WriteLine(ex.ToString());
                 this.Description = string.Empty;
             }
 
@@ -363,9 +362,9 @@ namespace MediaDevices
             get
             {
                 //Some devices like Apple (iPhones, iPods) prevents to get device friendly name by using device properties
-				// Probably Apple security reasons (??). So if we have problems just take the old value that has been loaded from
-				// device directly - in constructor.
-				if (IsConnected && this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val))
+                // Probably Apple security reasons (??). So if we have problems just take the old value that has been loaded from
+                // device directly - in constructor.
+                if (IsConnected && this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val))
                 {
                     return val;
                 }

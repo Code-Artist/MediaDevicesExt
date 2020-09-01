@@ -54,12 +54,14 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
     <Compile Include="ContentType.cs" />
     <Compile Include="DeviceTransport.cs" />
     <Compile Include="DeviceType.cs" />
+    <Compile Include="MediaDeviceWatcher.cs" />
     <Compile Include="MediaDriveInfo.cs" />
     <Compile Include="Internal\ComHelper.cs" />
     <Compile Include="Internal\Command.cs" />

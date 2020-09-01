@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
-using TPROPVARIANT = PortableDeviceTypesLib.tag_inner_PROPVARIANT;
 
 namespace MediaDevices.Internal
 {
@@ -26,7 +22,7 @@ namespace MediaDevices.Internal
         public double dateValue;
         [FieldOffset(8)]
         public short boolValue;
-        
+
         public static PropVariant FromValue(PROPVARIANT value)
         {
             IntPtr ptrValue = Marshal.AllocHGlobal(Marshal.SizeOf(value));
@@ -40,29 +36,29 @@ namespace MediaDevices.Internal
 
         public override string ToString()
         {
-            switch ((VarType)variantType)
+            switch (variantType)
             {
-            case VarType.VT_LPWSTR:
-                return Marshal.PtrToStringUni(pointerValue);
+                case VarType.VT_LPWSTR:
+                    return Marshal.PtrToStringUni(pointerValue);
 
-            case VarType.VT_CLSID:
-                return ToGuid().ToString();
+                case VarType.VT_CLSID:
+                    return ToGuid().ToString();
 
-            case VarType.VT_DATE:
-                return ToDate().ToString();
+                case VarType.VT_DATE:
+                    return ToDate().ToString();
 
-            case VarType.VT_BOOL:
-                return ToBool().ToString();
+                case VarType.VT_BOOL:
+                    return ToBool().ToString();
 
-            case VarType.VT_UI4:
-                return intValue.ToString();
+                case VarType.VT_UI4:
+                    return intValue.ToString();
 
-            case VarType.VT_UI8:
-                return longValue.ToString();
+                case VarType.VT_UI8:
+                    return longValue.ToString();
 
-            case VarType.VT_ERROR:
-                string name = Enum.GetName(typeof(HResult), longValue) ?? longValue.ToString("X");
-                return $"Error: {name}";
+                case VarType.VT_ERROR:
+                    string name = Enum.GetName(typeof(HResult), longValue) ?? longValue.ToString("X");
+                    return $"Error: {name}";
             }
 
             return $"Unknown type {variantType}";
@@ -96,7 +92,7 @@ namespace MediaDevices.Internal
             ////Marshal.Copy(pointerValue, arr, 0, 199);
             //Marshal.Copy((IntPtr)longValue, arr, 0, 16);
             //return arr;
-            
+
             return null;
         }
 
