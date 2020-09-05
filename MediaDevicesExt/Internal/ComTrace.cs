@@ -30,7 +30,7 @@ namespace MediaDevices.Internal
                     PropertyKey pk = (PropertyKey)field.GetValue(null);
                     if (pk.pid == key.pid && pk.fmtid == key.fmtid)
                     {
-                        Trace.WriteLine($"##### {field.Name} = {((PropVariant)val).ToString()}");
+                        Debug.WriteLine($"##### {field.Name} = {((PropVariant)val).ToString()}");
                     }
                 }
             }
@@ -56,7 +56,7 @@ namespace MediaDevices.Internal
                 PROPVARIANT val = new PROPVARIANT();
                 collection.GetAt(index, ref val);
 
-                Trace.WriteLine($"##### {((PropVariant)val).ToString()}");
+                Debug.WriteLine($"##### {((PropVariant)val).ToString()}");
             }
         }
 

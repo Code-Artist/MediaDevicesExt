@@ -229,17 +229,20 @@ namespace MediaDevices
                 //Debug.WriteLine(ex.ToString());
                 this.Description = string.Empty;
             }
-            try
-            {
-                count = 256;
-                portableDeviceManager.GetDeviceFriendlyName(deviceId, buffer, ref count);
-                this.friendlyName = new string(buffer, 0, (int)count - 1);
-            }
-            catch (COMException ex)
-            {
-                //Debug.WriteLine(ex.ToString());
-                this.friendlyName = string.Empty;
-            }
+
+            // ## NOTE: Disable as GetDeviceFriendlyName seems to be always failed for most devices.
+            //try
+            //{
+            //    count = 256;
+            //    portableDeviceManager.GetDeviceFriendlyName(deviceId, buffer, ref count);
+            //    this.friendlyName = new string(buffer, 0, (int)count - 1);
+            //}
+            //catch (COMException ex)
+            //{
+            //    //Debug.WriteLine(ex.ToString());
+            //    this.friendlyName = string.Empty;
+            //}
+
             try
             {
                 count = 256;
