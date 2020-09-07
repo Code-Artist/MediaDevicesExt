@@ -224,7 +224,7 @@ namespace MediaDevices
                 portableDeviceManager.GetDeviceDescription(deviceId, buffer, ref count);
                 this.Description = new string(buffer, 0, (int)count - 1);
             }
-            catch (COMException ex)
+            catch //(COMException ex)
             {
                 //Debug.WriteLine(ex.ToString());
                 this.Description = string.Empty;
@@ -249,7 +249,7 @@ namespace MediaDevices
                 portableDeviceManager.GetDeviceManufacturer(deviceId, buffer, ref count);
                 this.Manufacturer = new string(buffer, 0, (int)count - 1);
             }
-            catch (COMException ex)
+            catch //(COMException ex)
             {
                 //Debug.WriteLine(ex.ToString());
                 this.Description = string.Empty;
